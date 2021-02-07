@@ -1,8 +1,10 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.InMemory
@@ -34,27 +36,35 @@ namespace DataAccess.Concrete.InMemory
             _cars.Remove(carToDelete);
         }
 
-        public List<Car> GetAll()
+        public Car Get(Expression<Func<Car, bool>> filter)
         {
-            return _cars;
+            var expression = filter.Compile();
+            var car = _cars.SingleOrDefault(expression);
+            return car;
         }
 
-        
+
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            var expression = filter.Compile();
+            return filter == null ? _cars : _cars.Where(expression).ToList();
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            Console.WriteLine("InMemory' de SQL işlemleri yapılamaz.");
+            return null;
+        }
+
         public void Update(Car car)
         {
             Car carToUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
             carToUpdate.BrandId = car.BrandId;
             carToUpdate.ColorId = car.ColorId;
-            carToUpdate.ModelYear = car.ModelYear;
             carToUpdate.DailyPrice = car.DailyPrice;
             carToUpdate.Description = car.Description;
-        }
+            carToUpdate.ModelYear = car.ModelYear;
 
-        public List<Car> GetById()
-        {
-            return _cars;
         }
-
-        
     }
 }
