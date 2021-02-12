@@ -17,7 +17,7 @@ namespace ConsoleUI
             //EfColorTest();
 
             //CarDetailTest();
-            CarAddToDbTest();
+            //CarAddToDbTest();
             //CarUpdateTest();
             //CarDeleteTest();
         }
