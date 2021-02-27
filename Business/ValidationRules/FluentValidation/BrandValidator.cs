@@ -10,8 +10,8 @@ namespace Business.ValidationRules.FluentValidation
     {
         public BrandValidator()
         {
-            RuleFor(b => b.BrandName).NotEmpty();
-            RuleFor(b => b.BrandName).MinimumLength(2);
+            RuleFor(b => b.BrandName).NotEmpty().WithMessage("Boş olamaz");
+            RuleFor(b => b.BrandName).MinimumLength(2).WithMessage("2 karakterden az olamaz");
         }
     }
 }

@@ -22,12 +22,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.Description.Length < 2)
-            {
-                //magic strings
-                return new ErrorResult(Messages.CarNameInvalid);
-            }
-            _carDal.Add(car);
+           _carDal.Add(car);
 
             return new SuccessResult(Messages.CarAdded);
         }
