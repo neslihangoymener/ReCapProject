@@ -1,6 +1,7 @@
 ﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -39,9 +40,25 @@ namespace Business.Constants
         internal static string CustomerAdded = "Müşteri Eklendi";
         internal static string CustomerDeleted = "Müşteri Silindi";
         internal static string CustomerUpdated = "Müşteri Güncellendi";
-        internal static string CustomerListed = "Müşteriler Listelendi";
+        internal static string CustomerListed = "Müşteriler Listelendi"
 
+        public static string CarImageAdded="Resim Eklendi";
+        public static string CarImageDeleted = "Resim Silindi";
+        public static string CarImageUpdated = "Resim Güncellendi";
+        public static string CarImagesListed = "Resimler Listelendi";
+        public static string CarImageCountOfCarIdError = "En fazla 5 resim kaydedebilirsiniz";
 
+        internal static string AuthorizationDenied="Yetkiniz Yok";
+
+        internal static string UserOperationClaim = "Kullanıcının Bilgileri";
+
+        public static string UserRegistered = "Kayıt Oldu";
+        public static string UserNotFound = "Kullanıcı Bulunamadı";
+        public static string PasswordError = "Parola Hatası";
+        public static string SuccessfulLogin = "Başarılı Giriş";
+        public static string UserAlreadyExists = "Kullanıcı Mevcut";
+        public static string AccessTokenCreated = "Token oluşturuldu";
+       
     }
 }
  

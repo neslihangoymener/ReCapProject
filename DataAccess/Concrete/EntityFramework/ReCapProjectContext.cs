@@ -5,10 +5,13 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Entities.Concrete;
+using Core.Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
+
 {
-    public class ReCapProjectContext:DbContext
+    //Context: Db tabloları ile proje classlarını bağlamak
+    public class ReCapProjectContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,11 +19,13 @@ namespace DataAccess.Concrete.EntityFramework
         }
 
         public DbSet<Car> Cars { get; set; }
-        public DbSet<Car> CarImages { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
     }
 }

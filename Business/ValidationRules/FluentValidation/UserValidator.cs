@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(u => u.LastName).NotEmpty();
             RuleFor(u => u.LastName).MinimumLength(2);
             RuleFor(u => u.Email).Must(ContainEt).WithMessage("Geçersiz eposta adresi");
-            RuleFor(u => u.Password).MinimumLength(6).WithMessage("Şifre en az 6 karakter olmalı");
+            //RuleFor(u => u.Password).MinimumLength(6).WithMessage("Şifre en az 6 karakter olmalı");
         }
 
         private bool ContainEt(string arg)

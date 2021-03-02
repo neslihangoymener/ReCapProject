@@ -11,7 +11,8 @@ namespace Business.ValidationRules.FluentValidation
         public CarImageValidator()
         {
             RuleFor(c => c.CarId).NotEmpty().WithMessage("Boş olamaz");
-            //RuleFor(c => c.ImagePath).NotEmpty().WithMessage("Boş olamaz");
+            RuleFor(c => c.ImagePath).NotEmpty().WithMessage("Boş olamaz");
+            RuleFor(ci => ci.CreateDate).NotEmpty();
         }
 
 
