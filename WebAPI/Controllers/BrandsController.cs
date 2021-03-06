@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace WebAPI.Controllers
             _brandService = brandService;
         }
         [HttpGet("getall")]
+        [SecuredOperation("brand.list,admin")]
         public IActionResult GetAll()
         {
             var result = _brandService.GetAll();
@@ -42,6 +44,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
+        [SecuredOperation("brand.add,admin")]
         public IActionResult Add(Brand brand)
         {
             var result = _brandService.Add(brand);
@@ -52,6 +55,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Update")]
+        [SecuredOperation("brand.update,admin")]
         public IActionResult Update(Brand brand)
         {
             var result = _brandService.Update(brand);
@@ -62,6 +66,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Delete")]
+        [SecuredOperation("brand.delete,admin")]
         public IActionResult Delete(Brand brand)
         {
             var result = _brandService.Delete(brand);

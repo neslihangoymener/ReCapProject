@@ -13,6 +13,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<OperationClaim> GetClaims(User user)
         {
+            //Kullanıcının rollerini çeker
             using (var context = new ReCapProjectContext())
             {
                 var result = from operationClaim in context.OperationClaims

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Entities.Concrete;
@@ -27,6 +28,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
+        [SecuredOperation("carimage.list,admin")]
         public IActionResult GetAll()
         {
             var result = _carImageService.GetAll();
@@ -60,6 +62,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
+        [SecuredOperation("carimage.add,admin")]
         public IActionResult AddAsync([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
         {
             var result = _carImageService.Add(file, carImage);
@@ -74,6 +77,7 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("delete")]
+        [SecuredOperation("carimage.delete,admin")]
         public IActionResult Delete([FromForm(Name = ("Id"))] int Id)
         {
 
@@ -88,6 +92,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
+        [SecuredOperation("carimage.update,admin")]
         public IActionResult Update([FromForm(Name = ("Image"))] IFormFile file, [FromForm(Name = ("Id"))] int Id)
         {
             var carImage = _carImageService.Get(Id).Data;

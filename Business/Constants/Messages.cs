@@ -40,7 +40,7 @@ namespace Business.Constants
         internal static string CustomerAdded = "Müşteri Eklendi";
         internal static string CustomerDeleted = "Müşteri Silindi";
         internal static string CustomerUpdated = "Müşteri Güncellendi";
-        internal static string CustomerListed = "Müşteriler Listelendi"
+        internal static string CustomerListed = "Müşteriler Listelendi";
 
         public static string CarImageAdded="Resim Eklendi";
         public static string CarImageDeleted = "Resim Silindi";

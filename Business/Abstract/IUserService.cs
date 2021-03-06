@@ -18,5 +18,6 @@ namespace Business.Abstract
         IResult Update(User user);
 
         IResult Delete(User user);
+        IResult AddTransactionTest(User user);
     }
 }

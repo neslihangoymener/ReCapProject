@@ -2,6 +2,8 @@
 using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers;
@@ -26,8 +28,10 @@ namespace Business.Concrete
             _carImageDAL = carImageDAL;
         }
 
+        [CacheRemoveAspect("ICarImageService.Add")]
         [SecuredOperation("carimage.add,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckImageLimitExceeded(carImage.CarId));
@@ -54,7 +58,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
         {
-            carImage.ImagePath = FileHelper.Update(_carImageDAL.Get(p => p.ImageId == carImage.ImageId).ImagePath, file);
+            carImage.ImagePath = FileHelper.Update(_carImageDAL.Get(p => p.CarImageId == carImage.CarImageId).ImagePath, file);
             carImage.CreateDate = DateTime.Now;
             _carImageDAL.Update(carImage);
             return new SuccessResult(Messages.CarImageUpdated);
@@ -63,7 +67,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarImageValidator))]
         public IDataResult<CarImage> Get(int id)
         {
-            return new SuccessDataResult<CarImage>(_carImageDAL.Get(p => p.ImageId == id));
+            return new SuccessDataResult<CarImage>(_carImageDAL.Get(p => p.CarImageId == id));
         }
         public IDataResult<List<CarImage>> GetAll()
         {
@@ -98,5 +102,12 @@ namespace Business.Concrete
             return _carImageDAL.GetAll(p => p.CarId == id);
         }
 
+        
+        [TransactionScopeAspect]
+        public IResult AddTransactionTest(CarImage carImage)
+        {
+            throw new NotImplementedException();
+
+        }
     }
 }

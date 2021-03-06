@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +21,7 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
         [HttpGet("getall")]
+        [SecuredOperation("user.list,admin")]
         public IActionResult GetAll()
         {
 
@@ -34,6 +36,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
+        [SecuredOperation("user.add,admin")]
         public IActionResult Add(User user)
         {
             var result = _userService.Add(user);
@@ -44,6 +47,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Update")]
+        [SecuredOperation("user.update,admin")]
         public IActionResult Update(User user)
         {
             var result = _userService.Update(user);
@@ -54,6 +58,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Delete")]
+        [SecuredOperation("user.delete,admin")]
         public IActionResult Delete(User user)
         {
             var result = _userService.Delete(user);

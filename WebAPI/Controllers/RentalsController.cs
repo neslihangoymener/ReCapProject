@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace WebAPI.Controllers
             _rentalService = rentalService;
         }
         [HttpGet("getall")]
+        [SecuredOperation("rental.list,admin")]
         public IActionResult GetAll()
         {
 
@@ -43,6 +45,7 @@ namespace WebAPI.Controllers
 
         }
         [HttpPost("add")]
+        [SecuredOperation("rental.add,admin")]
         public IActionResult Add(Rental rental)
         {
             var result = _rentalService.Add(rental);
@@ -53,6 +56,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Update")]
+        [SecuredOperation("rental.update,admin")]
         public IActionResult Update(Rental rental)
         {
             var result = _rentalService.Update(rental);
@@ -63,6 +67,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Delete")]
+        [SecuredOperation("rental.delete,admin")]
         public IActionResult Delete(Rental rental)
         {
             var result = _rentalService.Delete(rental);

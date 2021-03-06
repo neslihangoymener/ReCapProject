@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace WebAPI.Controllers
             _colorService = colorService;
         }
         [HttpGet("getall")]
+        [SecuredOperation("color.list,admin")]
         public IActionResult GetAll()
         {
             var result = _colorService.GetAll();
@@ -31,6 +33,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
+        [SecuredOperation("color.add,admin")]
         public IActionResult Add(Color color)
         {
             var result = _colorService.Add(color);
@@ -41,6 +44,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Update")]
+        [SecuredOperation("color.update,admin")]
         public IActionResult Update(Color color)
         {
             var result = _colorService.Update(color);
@@ -51,6 +55,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("Delete")]
+        [SecuredOperation("color.delete,admin")]
         public IActionResult Delete(Color color)
         {
             var result = _colorService.Delete(color);

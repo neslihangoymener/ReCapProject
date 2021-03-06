@@ -15,5 +15,6 @@ namespace Business.Abstract
         IResult Update(Customer customer);
 
         IResult Delete(Customer customer);
+        IResult AddTransactionTest(Customer customer);
     }
 }

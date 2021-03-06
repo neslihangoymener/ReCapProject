@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +23,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
+        [SecuredOperation("car.list,admin")]
+        [Authorize()]//Bu operasyonun çalışabilmesi için kullanıcının authontantice olması yeterlidir
         public IActionResult GetAll()
         {
 
@@ -72,6 +76,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("add")]
+        [SecuredOperation("car.add,admin")]
         public IActionResult Add(Car car)
         {
             var result = _carService.Add(car);
@@ -82,6 +87,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("update")]
+        [SecuredOperation("car.update,admin")]
         public IActionResult Update(Car car)
         {
             var result = _carService.Update(car);
@@ -92,6 +98,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("delete")]
+        [SecuredOperation("car.delete,admin")]
         public IActionResult Delete(Car car)
         {
             var result = _carService.Delete(car);
