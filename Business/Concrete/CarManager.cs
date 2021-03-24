@@ -18,12 +18,14 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
-        public CarManager(ICarDal carDal)
+        ICarImageService _carImageService;
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
+            _carImageService = carImageService;
             _carDal = carDal;
         }
-        
-        [SecuredOperation("car.add,admin")]
+
+        //[SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Add")]
         [TransactionScopeAspect]
@@ -59,15 +61,15 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear == year));
         }
 
-        public IDataResult<List<Car>> GetAllByColorId(int id)
+        public IDataResult<List<Car>> GetAllByColorId(int colorid)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorid));
 
         }
 
-        public IDataResult<List<Car>> GetAllByBrandId(int id)
+        public IDataResult<List<Car>> GetAllByBrandId(int brandid)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandid));
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
@@ -75,7 +77,63 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
- 
+        public IDataResult<CarDetailAndImagesDto> GetCarDetailAndImagesDto(int carId)
+        {
+            var result = _carDal.GetCarDetails();
+            var imageResult = _carImageService.GetByCarId(carId);
+            if (result == null || imageResult.Success == false)
+            {
+                return new ErrorDataResult<CarDetailAndImagesDto>(Messages.ErrorCarMessage);
+            }
+
+            var carDetailAndImagesDto = new CarDetailAndImagesDto
+            {
+                Car = result,
+                CarImages = imageResult.Data
+            };
+
+            return new SuccessDataResult<CarDetailAndImagesDto>(carDetailAndImagesDto, Messages.SuccessCarMessage);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailByBrandId(int brandId)
+        {
+            List<CarDetailDto> carDetails = _carDal.GetCarsDetails(p => p.BrandId == brandId);
+            if (carDetails == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.ErrorCarMessage);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.ErrorCarMessage);
+            }
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailByBrandIdAndColorId(int brandId, int colorId)
+        {
+            List<CarDetailDto> carDetails = _carDal.GetCarsDetails(p => p.BrandId == brandId && p.ColorId == colorId);
+            if (carDetails == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.ErrorCarMessage);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.ErrorCarMessage);
+            }
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsDetailByColorId(int colorId)
+        {
+            List<CarDetailDto> carDetails = _carDal.GetCarsDetails(p => p.ColorId == colorId);
+            if (carDetails == null)
+            {
+                return new ErrorDataResult<List<CarDetailDto>>(Messages.ErrorCarMessage);
+            }
+            else
+            {
+                return new SuccessDataResult<List<CarDetailDto>>(carDetails, Messages.ErrorCarMessage);
+            }
+        }
+
         [TransactionScopeAspect]
         public IResult AddTransactionTest(Car car)
         {
@@ -87,6 +145,7 @@ namespace Business.Concrete
             Add(car);
             return null;
 
-        }
+        } 
+
     }
 }

@@ -3,6 +3,7 @@ using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
@@ -51,7 +52,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
         }
 
-
+        [CacheAspect]
+        [PerformanceAspect(5)]
+        public IDataResult<Color> GetById(int colorId)
+        {
+            return new SuccessDataResult<Color>(_colorDal.Get(p => p.ColorId == colorId));
+        }
 
         [TransactionScopeAspect]
         public IResult AddTransactionTest(Color color)

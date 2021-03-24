@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
 
         [HttpGet("getall")]
         [SecuredOperation("car.list,admin")]
-        [Authorize()]//Bu operasyonun çalışabilmesi için kullanıcının authontantice olması yeterlidir
+        //[Authorize()]//Bu operasyonun çalışabilmesi için kullanıcının authontantice olması yeterlidir
         public IActionResult GetAll()
         {
 
@@ -41,9 +41,9 @@ namespace WebAPI.Controllers
         [HttpGet("GetAllByColorId")]
 
         //https://localhost:44367/api/cars/GetAllByColorId?id=2
-        public IActionResult GetAllByColorId(int id)
+        public IActionResult GetAllByColorId(int colorid)
         {
-            var result = _carService.GetAllByColorId(id);
+            var result = _carService.GetCarsDetailByColorId(colorid);
             if (result.Success)
             {
                 return Ok(result);
@@ -66,16 +66,40 @@ namespace WebAPI.Controllers
         [HttpGet("GetAllByBrandId")]
 
         //https://localhost:44367/api/cars/GetAllByBrandId?year=2020
-        public IActionResult GetAllByBrandId(int id)
+        public IActionResult GetAllByBrandId(int brandid)
         {
-            var result = _carService.GetAllByBrandId(id);
+            var result = _carService.GetCarsDetailByBrandId(brandid);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpPost("add")]
+
+        [HttpGet("GetCarDetails")]
+
+        //https://localhost:44367/api/cars/GetCarDetails
+        public IActionResult GetCarDetails()
+        {
+            var result = _carService.GetCarDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbybrandandcolor")]
+        public IActionResult GetByBrandAndColor(int brandId, int colorId)
+        {
+            var result = _carService.GetCarsDetailByBrandIdAndColorId(brandId, colorId);
+            if (result.Success)
+                return Ok(result);
+            else
+                return BadRequest(result);
+        }
+
+            [HttpPost("add")]
         [SecuredOperation("car.add,admin")]
         public IActionResult Add(Car car)
         {

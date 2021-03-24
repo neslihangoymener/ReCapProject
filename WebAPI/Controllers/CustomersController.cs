@@ -34,6 +34,20 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpGet("GetCustomerDetails")]
+
+        //https://localhost:44367/api/cars/GetCustomerDetails
+        public IActionResult GetCustomerDetails()
+        {
+            var result = _customerService.GetCustomerDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
         [HttpPost("add")]
         [SecuredOperation("customer.add,admin")]
         public IActionResult Add(Customer customer)

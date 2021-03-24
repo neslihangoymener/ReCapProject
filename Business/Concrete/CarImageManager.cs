@@ -102,7 +102,25 @@ namespace Business.Concrete
             return _carImageDAL.GetAll(p => p.CarId == id);
         }
 
-        
+        public IDataResult<List<CarImage>> GetById(int id)
+        {
+            var result = _carImageDAL.Get(c => c.CarId == id);
+            if (result.ImagePath == null)
+            {
+                List<CarImage> Cimage = new List<CarImage>();
+                Cimage.Add(new CarImage { CarId = id, ImagePath = @"\CarImages\default.png" });
+                return new SuccessDataResult<List<CarImage>>(Cimage);
+            }
+            return new SuccessDataResult<List<CarImage>>(_carImageDAL.GetAll(b => b.CarImageId == id));
+
+        }
+        public IDataResult<List<CarImage>> GetByCarId(int id)
+        {
+            var result = _carImageDAL.GetAll(c => c.CarId == id);
+
+            return new SuccessDataResult<List<CarImage>>(result);
+        }
+
         [TransactionScopeAspect]
         public IResult AddTransactionTest(CarImage carImage)
         {
